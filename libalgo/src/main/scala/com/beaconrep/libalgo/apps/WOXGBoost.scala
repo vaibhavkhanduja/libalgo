@@ -2,7 +2,7 @@ package com.beaconrep.libalgo.apps
 
 import com.beaconrep.libalgo.core._
 
-object WOXGBoost {
+object WOXGBoost extends App {
   
   val frameWork = new SparkFramework("DecisionTree", "local[*]")
   

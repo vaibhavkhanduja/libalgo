@@ -2,11 +2,11 @@ package com.beaconrep.libalgo.apps
 
 import com.beaconrep.libalgo.core._
 
-object WODecisionTree extends App {
+object WONaiveBayes extends App {
   
   val frameWork = new SparkFramework("DecisionTree", "local[*]")
   
-  val algorithm = new SparkDecisionTree(frameWork.getSession())
+  val algorithm = new SparkNaiveBayes(frameWork.getSession())
   
   algorithm.initCSVDataPoint("resources/ParameterMaterialNoEmpty.csv")
            

@@ -88,6 +88,11 @@
     	<artifactId>spark-mllib_${scala.tools.version}</artifactId>
     	<version>${spark.version}</version>
     </dependency>
+    <dependency>
+    	<groupId>org.jpmml</groupId>
+    	<artifactId>jpmml-xgboost</artifactId>
+    	<version>1.0.5</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -2,56 +2,19 @@ package com.beaconrep.libalgo.core
 
 import com.beaconrep.libalgo._
 import org.apache.spark.sql.SparkSession
-
-
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.DenseVector
-
-
 import org.apache.spark.mllib.evaluation._
 import org.apache.spark.mllib.tree._
 import org.apache.spark.mllib.tree.model._
 import org.apache.spark.rdd._
 import org.apache.spark.sql._
 
-class SparkDecisionTree(frameWork: SparkSession) extends  java.io.Serializable with algorithm  {
+class SparkDecisionTree(INframeWork: SparkSession)  extends algorithm  {
  
-  private var dataValues:DataFrame = null
-  
-  private var dataValuesRDD: RDD[LabeledPoint] = null
-  
-  private var model: DecisionTreeModel = null
-  
-    
-  
-  def initCSVDataPoint(filePath:String) = {
-      dataValues = frameWork.read.option("header","true").csv(filePath)
-      
-       dataValuesRDD = dataValues.rdd.map( 
-           
-         row => {
-           val rowValues =  row.toString.slice(1, row.toString.length - 1).split(",").toArray.map({
-               case s:String => s.toDouble
-               
-           })
-           val featureVector = new DenseVector(rowValues.init)
-           val label = rowValues(0)
-           LabeledPoint(label, featureVector)
-         })
-  }
-         
-   def initJSONDataPoint(filePath:String) = {
-       dataValues = frameWork.read.json(filePath)
-       dataValuesRDD = dataValues.rdd.map( 
-           row => {
-             val rowValues = row.toSeq.toArray.map({
-             case l:Long => l.toDouble
-             })
-           val featureVector = new DenseVector(rowValues.init)
-           val label = rowValues(0)
-           LabeledPoint(label, featureVector)
-         })
-      }
+  frameWork = INframeWork
+  private var model: DecisionTreeModel = null 
+ 
       
 def buildModel: MulticlassMetrics = {
      val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
@@ -61,7 +24,7 @@ def buildModel: MulticlassMetrics = {
      val categoricalFeaturesInfo = Map[Int, Int]()
 
      val maxDepth = 5
-     val maxBins = 32
+     val maxBins = 100
 
      model = DecisionTree.trainClassifier(trainingData, 
                                              numClasses, 
@@ -70,15 +33,15 @@ def buildModel: MulticlassMetrics = {
                                              maxDepth, 
                                              maxBins) 
                                              
-     getMetrics
+     getMetrics(model, dataValuesRDD)
     
   }
       
   
-   def getMetrics:
+   def getMetrics(demodel: DecisionTreeModel, data:RDD[LabeledPoint]) :
     MulticlassMetrics = {
-       val predictionsAndLabels = dataValuesRDD.map(example =>
-         (model.predict(example.features), example.label)
+       val predictionsAndLabels = data.map(example =>
+         (demodel.predict(example.features), example.label)
       )
      new MulticlassMetrics(predictionsAndLabels)
      }

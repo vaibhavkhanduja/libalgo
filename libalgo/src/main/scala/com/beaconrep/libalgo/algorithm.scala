@@ -46,6 +46,4 @@ trait algorithm {
          })
       }
    
-   def buildModel:MulticlassMetrics
-   
 }

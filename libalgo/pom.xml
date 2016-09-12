@@ -93,6 +93,14 @@
     	<artifactId>jpmml-xgboost</artifactId>
     	<version>1.0.5</version>
     </dependency>
+   
+     <dependency>
+    	<groupId>ml.dml</groupId>
+    	<artifactId>xgboost4j-spark</artifactId>
+    	<version>0.7</version>
+    	<scope>system</scope>
+        <systemPath>/Users/VK/.m2/repository/ml/dmlc/xgboost4j-spark/0.7/xgboost4j-spark-0.7-jar-with-dependencies.jar</systemPath>
+    </dependency>
   </dependencies>
 
   <build>

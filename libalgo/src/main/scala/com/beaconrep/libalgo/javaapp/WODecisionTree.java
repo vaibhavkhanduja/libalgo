@@ -6,10 +6,9 @@ import com.beaconrep.libalgo.core.*;
 public class WODecisionTree {
 
   public static void main(String[] args) {
-    SparkFramework frameWork = new SparkFramework("DecisionTree", "local[*]");    
-    algorithm our_algorithm = new SparkDecisionTree(frameWork.getSession());
+    SparkFramework frameWork = new SparkFramework("RandomForest", "local[*]");    
+    algorithm our_algorithm = new SparkRandomForest(frameWork.getSession());
     our_algorithm.initCSVDataPoint("resources/ParameterMaterialNoEmpty.csv");
-    System.out.println(our_algorithm.buildModel().accuracy());
-    System.out.println(our_algorithm.buildModel().precision(0.0));
+    //System.out.println(our_algorithm.buildModel().
   }
 }

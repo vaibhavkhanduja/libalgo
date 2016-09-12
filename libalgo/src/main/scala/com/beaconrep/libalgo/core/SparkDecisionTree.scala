@@ -16,7 +16,7 @@ class SparkDecisionTree(INframeWork: SparkSession)  extends algorithm  {
   private var model: DecisionTreeModel = null 
  
       
-def buildModel: MulticlassMetrics = {
+def buildModel: BinaryClassificationMetrics = {
      val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
      val (trainingData, testData) = (splits(0), splits(1))
      val impurity = "entropy"
@@ -33,16 +33,16 @@ def buildModel: MulticlassMetrics = {
                                              maxDepth, 
                                              maxBins) 
                                              
-     getMetrics(model, dataValuesRDD)
+     getMetrics(model, testData)
     
   }
       
   
    def getMetrics(demodel: DecisionTreeModel, data:RDD[LabeledPoint]) :
-    MulticlassMetrics = {
+    BinaryClassificationMetrics = {
        val predictionsAndLabels = data.map(example =>
          (demodel.predict(example.features), example.label)
       )
-     new MulticlassMetrics(predictionsAndLabels)
+     new BinaryClassificationMetrics(predictionsAndLabels)
      }
   }

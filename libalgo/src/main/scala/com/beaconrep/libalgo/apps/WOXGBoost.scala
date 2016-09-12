@@ -9,11 +9,9 @@ object WOXGBoost extends App {
   val algorithm = new XGBoostTree(frameWork.getSession())
   
   algorithm.initCSVDataPoint("resources/ParameterMaterialNoEmpty.csv")
-           
-  println(algorithm.buildModel.confusionMatrix)
   
-  println(algorithm.buildModel.accuracy)
+  algorithm.buildModel
   
-  println(algorithm.buildModel.precision(0.0))
+ //val frameWork =  new XGBoostTree("resources/ParameterMaterialNoEmpty.csv")
   
 }

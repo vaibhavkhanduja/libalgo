@@ -16,17 +16,17 @@ class SparkRandomForest(INframeWork:SparkSession) extends algorithm {
    private var model: RandomForestModel = null 
  
       
-def buildModel: MulticlassMetrics = {
-   val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
-   val (trainingData, testData) = (splits(0), splits(1))
-   val impurity = "entropy"
-   val numClasses = 2
-   val categoricalFeaturesInfo = Map[Int, Int]()
-   val maxDepth = 5
-   val maxBins = 100
-   val numTrees = 3
-   val featureSubsetStrategy = "auto"
-   model = RandomForest.trainClassifier(trainingData, 
+def buildModel: BinaryClassificationMetrics = {
+  val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
+  val (trainingData, testData) = (splits(0), splits(1))
+  val impurity = "entropy"
+  val numClasses = 2
+  val categoricalFeaturesInfo = Map[Int, Int]()
+  val maxDepth = 5
+  val maxBins = 100
+  val numTrees = 3
+  val featureSubsetStrategy = "auto"
+  model = RandomForest.trainClassifier(trainingData, 
                                              numClasses, 
                                              categoricalFeaturesInfo, 
                                              numTrees,
@@ -34,15 +34,15 @@ def buildModel: MulticlassMetrics = {
                                              impurity, 
                                              maxDepth, 
                                              maxBins) 
-    getMetrics(model, dataValuesRDD)
- 
-  }     
+   getMetrics(model, testData)
+ }     
   
-   def getMetrics(demodel: RandomForestModel, data:RDD[LabeledPoint]) :
-    MulticlassMetrics = {
-       val predictionsAndLabels = data.map(example =>
-         (demodel.predict(example.features), example.label)
-      )
-     new MulticlassMetrics(predictionsAndLabels)
-     }
+  
+def getMetrics(demodel: RandomForestModel, data:RDD[LabeledPoint]) :
+  BinaryClassificationMetrics = {
+    val predictionsAndLabels = data.map(example =>
+       (demodel.predict(example.features), example.label)
+    )
+   new BinaryClassificationMetrics(predictionsAndLabels)
+  }
 }

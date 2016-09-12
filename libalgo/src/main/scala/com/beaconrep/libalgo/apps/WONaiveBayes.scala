@@ -10,10 +10,7 @@ object WONaiveBayes extends App {
   
   algorithm.initCSVDataPoint("resources/ParameterMaterialNoEmpty.csv")
            
-  println(algorithm.buildModel.confusionMatrix)
-  
-  println(algorithm.buildModel.accuracy)
-  
-  println(algorithm.buildModel.precision(0.0))
+  println(algorithm.buildModel.scoreAndLabels)
+
   
 }

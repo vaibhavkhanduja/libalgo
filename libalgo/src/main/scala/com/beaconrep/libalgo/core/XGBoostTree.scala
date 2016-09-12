@@ -3,47 +3,66 @@ package com.beaconrep.libalgo.core
 import com.beaconrep.libalgo._
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.mllib.regression.LabeledPoint
-import org.apache.spark.mllib.linalg.DenseVector
 import org.apache.spark.mllib.evaluation._
 import org.apache.spark.rdd._
 import org.apache.spark.sql._
+import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.mllib.linalg.DenseVector
 
-//import ml.dmlc.xgboost4j.scala.XGBoost
+//import ml.dmlc.xgboost4j.scala.spark.{XGBoost, XGBoostModel}
 
-import org.apache.spark.mllib.tree.RandomForest
-import org.apache.spark.mllib.tree.model.RandomForestModel
+import ml.dmlc.xgboost4j.scala.DMatrix
+import ml.dmlc.xgboost4j.scala.XGBoost
+
 
 class XGBoostTree(INframeWork:SparkSession) extends algorithm {
   
   frameWork = INframeWork
+  //var model:XGBoostModel = null
   
-  def buildModel: MulticlassMetrics = {
+ /* def buildModel {
    val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
    val (trainingData, testData) = (splits(0), splits(1))
-   val impurity = "entropy"
-   val numClasses = 2
-   val categoricalFeaturesInfo = Map[Int, Int]()
-   val maxDepth = 5
-   val maxBins = 100
-   val numTrees = 3
-   val featureSubsetStrategy = "auto"
-  // val xgboostModel = XGBoost.train(trainingData, params.toMap, 2, 1)
-   val model = RandomForest.trainClassifier(trainingData, 
-                                             numClasses, 
-                                             categoricalFeaturesInfo, 
-                                             numTrees,
-                                             featureSubsetStrategy,
-                                             impurity, 
-                                             maxDepth, 
-                                             maxBins) 
-   getMetrics(model, dataValuesRDD)
-  }   
+   
+   val paramMap = List(
+       "eta" -> 0.1f,
+       "max_depth" -> 2,
+       "objective" -> "binary:logistic").toMap
+       
+  println("Started to train model")
+       
+   model = XGBoost.train(trainingData, paramMap.toMap,  2, nWorkers = 4, useExternalMemory = true)
+   
+   println("Model created")
+   
+   val v0 = new DenseVector(Array(1,2,3))
+   
+   val pridictValues = INframeWork.sparkContext.parallelize(Seq(v0))
+   
+   val prediction = model.predict(pridictValues, 0)
+   
+   model.eval(testData, null, "error", false)
+   
+   prediction.foreach { x => println(x) }
+      
+  } */
   
-  def getMetrics(demodel: RandomForestModel, data:RDD[LabeledPoint]) :
-    MulticlassMetrics = {
-       val predictionsAndLabels = data.map(example =>
-         (demodel.predict(example.features), example.label)
-      )
-     new MulticlassMetrics(predictionsAndLabels)
-     }
+  def buildModel {
+  
+   val trainData = new DMatrix("resources/ParameterMaterialNoEmpty.csv")
+    // define parameters
+    val paramMap = List(
+      "eta" -> 0.1,
+      "max_depth" -> 2,
+      "objective" -> "binary:logistic").toMap
+    // number of iterations
+    val round = 2
+    // train the model
+    val model = XGBoost.train(trainData, paramMap, round)
+    // run prediction
+    val predTrain = model.predict(trainData)
+    
+    predTrain.foreach { x => println(x) }
+ }
+  
 }

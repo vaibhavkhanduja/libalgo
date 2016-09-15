@@ -1,6 +1,7 @@
 package com.beaconrep.libalgo.core
-hhhhh
+
 import com.beaconrep.libalgo._
+
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.evaluation._
@@ -9,18 +10,18 @@ import org.apache.spark.sql._
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.linalg.DenseVector
 
-//import ml.dmlc.xgboost4j.scala.spark.{XGBoost, XGBoostModel}
+import ml.dmlc.xgboost4j.scala.spark.{XGBoost, XGBoostModel}
 
-import ml.dmlc.xgboost4j.scala.DMatrix
-import ml.dmlc.xgboost4j.scala.XGBoost
+//import ml.dmlc.xgboost4j.scala.DMatrix
+//import ml.dmlc.xgboost4j.scala.XGBoost
 
 
 class XGBoostTree(INframeWork:SparkSession) extends algorithm {
   
   frameWork = INframeWork
-  //var model:XGBoostModel = null
+  var model:XGBoostModel = null
   
- /* def buildModel {
+ def buildModel {
    val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
    val (trainingData, testData) = (splits(0), splits(1))
    
@@ -31,24 +32,24 @@ class XGBoostTree(INframeWork:SparkSession) extends algorithm {
        
   println("Started to train model")
        
-   model = XGBoost.train(trainingData, paramMap.toMap,  2, nWorkers = 4, useExternalMemory = true)
+   model = XGBoost.trainWithRDD(trainingData, paramMap.toMap,  2, 4)
    
    println("Model created")
    
-   val v0 = new DenseVector(Array(1,2,3))
+   /*val v0 = new DenseVector(Array(1,2,3))
    
    val pridictValues = INframeWork.sparkContext.parallelize(Seq(v0))
    
-   val prediction = model.predict(pridictValues, 0)
+   val prediction = model.predict(pridictValues, 0)*/
    
-   model.eval(testData, null, "error", false)
+   println(model.eval(testData, new XGBoostEvaluator, "error", false))
    
-   prediction.foreach { x => println(x) }
+   //prediction.foreach { x => println(x) }
       
-  } */
+  }
   
   
-  
+  /*
   def buildModel {
   
    val trainData = new DMatrix("resources/ParameterMaterialNoEmpty.csv")
@@ -65,6 +66,6 @@ class XGBoostTree(INframeWork:SparkSession) extends algorithm {
     val predTrain = model.predict(trainData)
     
     predTrain.foreach { x => println(x) }
- }
+ }*/
   
 }

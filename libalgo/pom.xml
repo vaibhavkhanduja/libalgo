@@ -37,10 +37,10 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <encoding>UTF-8</encoding>
-    <scala.tools.version>2.10</scala.tools.version>
-    <scala.version>2.10.4</scala.version>
-    <spark.tools.version>2.10</spark.tools.version>
+    <scala.version>2.11.8</scala.version>
+    <spark.tools.version>2.11.8</spark.tools.version>
     <spark.version>2.0.0</spark.version>
+    <scala.binary.version>2.11</scala.binary.version>
   </properties>
 
   <dependencies>
@@ -51,41 +51,20 @@
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_${scala.tools.version}</artifactId>
+      <artifactId>spark-core_${scala.binary.version}</artifactId>
       <version>${spark.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-sql_${scala.tools.version}</artifactId>
+      <artifactId>spark-sql_${scala.binary.version}</artifactId>
       <version>${spark.version}</version>
       <scope>provided</scope>
     </dependency>
 
-
-    <!-- Test -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.specs2</groupId>
-      <artifactId>specs2_${scala.tools.version}</artifactId>
-      <version>1.13</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_${scala.tools.version}</artifactId>
-      <version>2.0.M6-SNAP8</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
     	<groupId>org.apache.spark</groupId>
-    	<artifactId>spark-mllib_${scala.tools.version}</artifactId>
+    	<artifactId>spark-mllib_${scala.binary.version}</artifactId>
     	<version>${spark.version}</version>
     </dependency>
     <dependency>
@@ -100,6 +79,13 @@
     	<version>0.7</version>
     	<scope>system</scope>
         <systemPath>/Users/VK/.m2/repository/ml/dmlc/xgboost4j-spark/0.7/xgboost4j-spark-0.7-jar-with-dependencies.jar</systemPath>
+    </dependency>
+    <dependency>
+    	<groupId>ml.dml</groupId>
+    	<artifactId>xgboost4j</artifactId>
+    	<version>0.7</version>
+    	<scope>system</scope>
+        <systemPath>/Users/VK/.m2/repository/ml/dmlc/xgboost4j/0.7/xgboost4j-0.7-jar-with-dependencies.jar</systemPath>
     </dependency>
   </dependencies>
 

@@ -4,7 +4,7 @@ import ml.dmlc.xgboost4j.java.XGBoostError
 import ml.dmlc.xgboost4j.scala.{DMatrix, EvalTrait}
 
 
-class XGBoostEvaluator extends EvalTrait {
+class XGBoostEvaluator extends EvalTrait  {
 
   /**
    * get evaluate metric

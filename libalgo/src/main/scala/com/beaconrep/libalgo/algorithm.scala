@@ -15,8 +15,8 @@ trait algorithm {
    protected var frameWork: SparkSession = null
  
    
-   def initCSVDataPoint(filePath:String) = {
-      dataValues = frameWork.read.option("header","true").csv(filePath)
+   def initCSVDataPoint(filePath:String, labelCol:Int = 0) = {
+      dataValues = frameWork.read.option("header","true").option("inferSchema", "true").csv(filePath)
       
        dataValuesRDD = dataValues.rdd.map(
            
@@ -24,15 +24,33 @@ trait algorithm {
            val rowValues = row.toSeq.toArray.map({
                case s:String =>
                  if (("[".equals(s)) || ("]".equals(s)))  
-                   Double.NaN 
+                   0.0
                  else s.toDouble
            })
            val featureVector = new DenseVector(rowValues.init)
-           val label = rowValues(0)
+           println(featureVector.toString)
+           val label = rowValues(labelCol)
            LabeledPoint(label, featureVector)
          })
   }
-         
+   def initCSVDataPoint(filePath:String, dao_Obj:Any, labelCol:Int) = {
+      //final case class Titanic (id:Int)
+     
+      dataValues = frameWork.read.option("header","true").option("inferSchema", "true").csv(filePath)
+      
+      dataValues.foreach { x => println(x) }
+      
+       dataValuesRDD = dataValues.rdd.map(
+           
+         row => {
+           val rowValues = row.asInstanceOf[dao_Obj]
+           val featureVector = new DenseVector(rowValues.id)
+           println(featureVector.toString)
+           val label = rowValues(labelCol)
+           LabeledPoint(label, featureVector)
+         })
+  }
+   
    def initJSONDataPoint(filePath:String) = {
        dataValues = frameWork.read.json(filePath)
        dataValuesRDD = dataValues.rdd.map( 

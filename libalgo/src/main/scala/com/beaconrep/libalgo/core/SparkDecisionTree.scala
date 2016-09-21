@@ -10,6 +10,9 @@ import org.apache.spark.mllib.tree.model._
 import org.apache.spark.rdd._
 import org.apache.spark.sql._
 
+import org.apache.spark.sql.types.{StructType, StructField, IntegerType, LongType, StringType, DoubleType}
+
+
 class SparkDecisionTree(INframeWork: SparkSession)  extends algorithm  {
  
   frameWork = INframeWork
@@ -39,11 +42,12 @@ def buildModel: BinaryClassificationMetrics = {
   }
       
   
-   def getMetrics(demodel: DecisionTreeModel, data:RDD[LabeledPoint]) :
+  def getMetrics(demodel: DecisionTreeModel, data:RDD[LabeledPoint]) :
     BinaryClassificationMetrics = {
        val predictionsAndLabels = data.map(example =>
          (demodel.predict(example.features), example.label)
       )
      new BinaryClassificationMetrics(predictionsAndLabels)
      }
-  }
+  
+ }

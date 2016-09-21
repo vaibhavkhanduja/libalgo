@@ -8,7 +8,6 @@ import org.apache.spark.sql._
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.DenseVector
 
-
 import org.apache.spark.sql.types.{StructType, StructField, IntegerType, LongType, StringType, DoubleType}
 
 object TitanicDecsionTree extends App {
@@ -20,7 +19,7 @@ object TitanicDecsionTree extends App {
      StructField("Pclass", IntegerType, false) ::
      StructField("Name", StringType, false) ::
      StructField("Sex", StringType, false) ::
-     StructField("Age", DoubleType, false) ::
+     StructField("Age", DoubleType, true) ::
      StructField("SibSp", IntegerType, false) ::
      StructField("Parch", IntegerType, false) ::
      StructField("Ticket", StringType, false) ::
@@ -33,6 +32,11 @@ object TitanicDecsionTree extends App {
   
   val algorithm = new SparkDecisionTree(frameWork.getSession())
   
-  algorithm.initCSVDataPoint("resources/titanic/train.csv", TitanicDao)
+  val featureQuery = new String("Survived,PassengerID,Age")
+  
+  algorithm.initCSVDataPoint("resources/titanic/train.csv", TitanicDao, featureQuery)
+ 
+  println(algorithm.buildModel.scoreAndLabels);
+  
   
 }

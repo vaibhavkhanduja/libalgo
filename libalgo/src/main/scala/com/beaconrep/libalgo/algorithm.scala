@@ -42,11 +42,26 @@ trait algorithm {
    
   
    
-   def initCSVDataPoint(filePath:String, dao:StructType) = {
+   def initCSVDataPoint(filePath:String, dao:StructType,featureQuery:String) = {
+     
      dataValues = frameWork.read.schema(dao).option("header", "true").csv(filePath)
-
-   }
-   
+     
+     dataValues.createTempView("data")
+     
+     dataValuesRDD = frameWork.sql("SELECT " + featureQuery + " FROM data").rdd.map(
+       row => {
+         val rowValues = row.toSeq.toArray.map({
+           case l:Long => l.toDouble
+           case i:Int => i.toDouble
+           case d:Double => d
+           case null => 0.0
+         })
+         val featureVector = new DenseVector(rowValues.init)
+         val label = rowValues(0)
+         LabeledPoint(label, featureVector)
+       })
+     }
+     
    def initJSONDataPoint(filePath:String) = {
        dataValues = frameWork.read.json(filePath)
        dataValuesRDD = dataValues.rdd.map( 

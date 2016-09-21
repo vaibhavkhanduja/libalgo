@@ -13,6 +13,7 @@ import org.apache.spark.sql._
 class SparkDecisionTree(INframeWork: SparkSession)  extends algorithm  {
  
   frameWork = INframeWork
+  
   private var model: DecisionTreeModel = null 
  
       

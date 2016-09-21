@@ -1,10 +1,15 @@
 package com.beaconrep.libalgo
 
+
+
 import org.apache.spark.mllib.evaluation._
 import org.apache.spark.rdd._
 import org.apache.spark.sql._
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.DenseVector
+
+import org.apache.spark.sql.types.{StructType}
+
 
 trait algorithm {
   
@@ -16,6 +21,7 @@ trait algorithm {
  
    
    def initCSVDataPoint(filePath:String, labelCol:Int = 0) = {
+     
       dataValues = frameWork.read.option("header","true").option("inferSchema", "true").csv(filePath)
       
        dataValuesRDD = dataValues.rdd.map(
@@ -33,23 +39,13 @@ trait algorithm {
            LabeledPoint(label, featureVector)
          })
   }
-   def initCSVDataPoint(filePath:String, dao_Obj:Any, labelCol:Int) = {
-      //final case class Titanic (id:Int)
-     
-      dataValues = frameWork.read.option("header","true").option("inferSchema", "true").csv(filePath)
-      
-      dataValues.foreach { x => println(x) }
-      
-       dataValuesRDD = dataValues.rdd.map(
-           
-         row => {
-           val rowValues = row.asInstanceOf[dao_Obj]
-           val featureVector = new DenseVector(rowValues.id)
-           println(featureVector.toString)
-           val label = rowValues(labelCol)
-           LabeledPoint(label, featureVector)
-         })
-  }
+   
+  
+   
+   def initCSVDataPoint(filePath:String, dao:StructType) = {
+     dataValues = frameWork.read.schema(dao).option("header", "true").csv(filePath)
+
+   }
    
    def initJSONDataPoint(filePath:String) = {
        dataValues = frameWork.read.json(filePath)

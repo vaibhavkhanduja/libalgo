@@ -7,11 +7,13 @@ import org.apache.spark.SparkConf
 
 
 class SparkFramework(applicationName:String, sparkMaster:String) extends SparkSession.Builder with framework {
- 
+   
   super.config(new SparkConf().setAppName(applicationName).setMaster(sparkMaster))
   
-  val session = super.getOrCreate()
+  val session = this.getOrCreate()
   
-  def getSession() = this.getOrCreate()
+  def getSession():SparkSession = session
+  
+
    
 }

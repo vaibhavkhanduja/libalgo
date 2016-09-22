@@ -1,8 +1,10 @@
 package com.beaconrep.libalgo.apps
 
+import com.beaconrep.libalgo.core._
 
-import org.apache.spark.mllib.linalg.{Vector, Vectors}
 import org.apache.spark.sql.types.{StructType, StructField, IntegerType, LongType, StringType, DoubleType}
+import org.apache.spark.mllib.classification.{NaiveBayes,NaiveBayesModel}
+import org.apache.spark.mllib.linalg.{Vector, Vectors}
 
 object NetworkFingerPrintingNaive extends App {
   
@@ -24,7 +26,7 @@ object NetworkFingerPrintingNaive extends App {
   
   algorithm.buildModel
            
-  val dv: Vector = Vectors.dense(0, 504, 1)
+  val dv: Vector = Vectors.dense(0, 0, 2)
   
   println(algorithm.predict(dv))
 

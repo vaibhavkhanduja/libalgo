@@ -33,6 +33,4 @@ object TitanicXGBoost extends App {
   
   algorithm.buildModel
   
- //val frameWork =  new XGBoostTree("resources/ParameterMaterialNoEmpty.csv")
-  
 }

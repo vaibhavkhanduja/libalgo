@@ -9,6 +9,8 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.DenseVector
 import org.apache.spark.mllib.classification.{NaiveBayes,NaiveBayesModel}
+import org.apache.spark.mllib.linalg.{Vector}
+
 
 
 class SparkNaiveBayes(INframeWork: SparkSession) extends algorithm {
@@ -30,4 +32,11 @@ def getMetrics(demodel: NaiveBayesModel, data:RDD[LabeledPoint]) :
       )
      new BinaryClassificationMetrics(predictionsAndLabels)
    }
+
+def predict(predictfeatureData: Vector): Double = {
+   model.predict(predictfeatureData)
+ }
+
 }
+
+ 

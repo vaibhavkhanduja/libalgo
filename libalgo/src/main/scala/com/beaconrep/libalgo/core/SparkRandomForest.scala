@@ -9,6 +9,7 @@ import org.apache.spark.rdd._
 import org.apache.spark.sql._
 import org.apache.spark.mllib.tree.RandomForest
 import org.apache.spark.mllib.tree.model.RandomForestModel
+import org.apache.spark.mllib.linalg.{Vector}
 
 class SparkRandomForest(INframeWork:SparkSession) extends algorithm {
   
@@ -45,4 +46,8 @@ def getMetrics(demodel: RandomForestModel, data:RDD[LabeledPoint]) :
     )
    new BinaryClassificationMetrics(predictionsAndLabels)
   }
+
+def predict(predictVector:Vector):Double = {
+   model.predict(predictVector) 
+ }
 }

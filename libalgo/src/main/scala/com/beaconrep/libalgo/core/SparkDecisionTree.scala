@@ -9,6 +9,8 @@ import org.apache.spark.mllib.tree._
 import org.apache.spark.mllib.tree.model._
 import org.apache.spark.rdd._
 import org.apache.spark.sql._
+import org.apache.spark.SparkConf
+import org.apache.spark.mllib.linalg.{Vector}
 
 import org.apache.spark.sql.types.{StructType, StructField, IntegerType, LongType, StringType, DoubleType}
 
@@ -50,4 +52,7 @@ def buildModel: BinaryClassificationMetrics = {
      new BinaryClassificationMetrics(predictionsAndLabels)
      }
   
+  def predict(predictfeatureData: Vector): Double = {
+   model.predict(predictfeatureData)
+ }
  }

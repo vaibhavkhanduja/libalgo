@@ -8,6 +8,8 @@ import org.apache.spark.sql._
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.DenseVector
 
+import org.apache.spark.mllib.linalg.{Vector}
+
 import org.apache.spark.sql.types.{StructType}
 
 
@@ -33,7 +35,7 @@ trait algorithm {
                    0.0
                  else s.toDouble
            })
-           val featureVector = new DenseVector(rowValues.init)
+           val featureVector = new DenseVector(rowValues.tail)
            println(featureVector.toString)
            val label = rowValues(labelCol)
            LabeledPoint(label, featureVector)
@@ -56,7 +58,7 @@ trait algorithm {
            case d:Double => d
            case null => 0.0
          })
-         val featureVector = new DenseVector(rowValues.init)
+         val featureVector = new DenseVector(rowValues.tail)
          val label = rowValues(0)
          LabeledPoint(label, featureVector)
        })
@@ -69,10 +71,12 @@ trait algorithm {
              val rowValues = row.toSeq.toArray.map({
              case l:Long => l.toDouble
              })
-           val featureVector = new DenseVector(rowValues.init)
+           val featureVector = new DenseVector(rowValues.tail)
            val label = rowValues(0)
            LabeledPoint(label, featureVector)
          })
       }
    
+   def predict(testData: Vector): Double
+
 }

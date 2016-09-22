@@ -7,8 +7,9 @@ import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.evaluation._
 import org.apache.spark.rdd._
 import org.apache.spark.sql._
-import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.mllib.linalg.{Vectors, Vector}
 import org.apache.spark.mllib.linalg.DenseVector
+
 
 import ml.dmlc.xgboost4j.scala.spark.{XGBoost, XGBoostModel}
 
@@ -68,4 +69,5 @@ class XGBoostTree(INframeWork:SparkSession) extends algorithm {
     predTrain.foreach { x => println(x) }
  }*/
   
+  def predict(predicVector:Vector): Double = 0.0
 }

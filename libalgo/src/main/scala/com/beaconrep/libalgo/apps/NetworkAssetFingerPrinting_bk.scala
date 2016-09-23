@@ -58,6 +58,8 @@ object NetworkAssetFingerPrinting_bk extends App {
      val impurity = "entropy"
      val numClasses = 4
      val categoricalFeaturesInfo = Map[Int, Int]((3 -> 0),(2 -> 1), (2 -> 2), (2 -> 3))
+     //val categoricalFeaturesInfo = Map[Int, Int]()
+  
      val maxDepth = 5
      val maxBins = 100
      val numTrees = 3
@@ -74,7 +76,7 @@ object NetworkAssetFingerPrinting_bk extends App {
      val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))
      predictionAndLabel.foreach(f => println(f))
      
-     println(model.algo)
+     println(model.toDebugString)
      
      println(model.predict(Vectors.dense(504, 0, 1)))
          

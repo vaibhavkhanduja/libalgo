@@ -34,6 +34,8 @@ def getMetrics(demodel: NaiveBayesModel, data:RDD[LabeledPoint]) :
    }
 
 def predict(predictfeatureData: Vector): Double = {
+  
+   println(model.predictProbabilities(predictfeatureData).toJson)
    model.predict(predictfeatureData)
  }
 

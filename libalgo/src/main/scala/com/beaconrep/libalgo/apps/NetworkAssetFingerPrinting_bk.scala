@@ -51,55 +51,37 @@ object NetworkAssetFingerPrinting_bk extends App {
        LabeledPoint(label, featureVector)
      })
      
-     val Array(training, test) = dataValuesRDD.randomSplit(Array(0.6, 0.4))
      
      
+     val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
+     val (trainingData, test) = (splits(0), splits(1))
      val impurity = "entropy"
-     val numClasses = 6
-     val categoricalFeaturesInfo = Map[Int, Int]()
-
+     val numClasses = 4
+     val categoricalFeaturesInfo = Map[Int, Int]((3 -> 0),(2 -> 1), (2 -> 2), (2 -> 3))
      val maxDepth = 5
      val maxBins = 100
-
-    val model = DecisionTree.trainClassifier(training, 
+     val numTrees = 3
+     val featureSubsetStrategy = "auto"
+    val model = RandomForest.trainClassifier(trainingData, 
                                              numClasses, 
                                              categoricalFeaturesInfo, 
+                                             numTrees,
+                                             featureSubsetStrategy,
                                              impurity, 
                                              maxDepth, 
                                              maxBins) 
-                                             
-                                           
-    // val model = NaiveBayes.train(training, lambda = 1.0, "multinomial")
      
      val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))
      predictionAndLabel.foreach(f => println(f))
      
-     //Predict with another random data
+     println(model.algo)
      
-     val dataValues_p = frameWork.read.schema(NetworkDao).option("header","true").csv("resources/network/Network_predict.csv")
-  
-    dataValues_p.createTempView("data_p")
-   
-  
-    val dataValuesRDD_p = frameWork.sql("SELECT protocol,src_port,dst_port, protocol_id FROM data_p").rdd.map(
-     row => {
-      val rowValues = row.toSeq.toArray.map({
-        case l:Long => l.toDouble
-        case i:Int => i.toDouble
-        case d:Double => d
-        case null => 0.0
-      })
-       val featureVector = new DenseVector(rowValues.tail)
-       val label = rowValues(0)
-       LabeledPoint(label, featureVector)
-     })
+     println(model.predict(Vectors.dense(504, 0, 1)))
+         
+     println(model.predict(Vectors.dense(0, 504, 1)))
      
-     val predictionAndLabel_p = dataValuesRDD_p.map(p => (model.predict(p.features), p.label))
-     predictionAndLabel_p.foreach(f => println(f))
+     println(model.predict(Vectors.dense(0, 0, 2)))
      
-     val dv: Vector = Vectors.dense(0, 504, 1)
+     println(model.predict(Vectors.dense(5, 0, 3)))
      
-     println(model.predict(dv))
-    
-  
 }

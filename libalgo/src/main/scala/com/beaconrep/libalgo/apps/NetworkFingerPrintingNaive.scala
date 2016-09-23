@@ -26,8 +26,9 @@ object NetworkFingerPrintingNaive extends App {
   
   algorithm.buildModel
            
-  val dv: Vector = Vectors.dense(0, 0, 2)
+  val dv: Vector = Vectors.dense(1000, 0, 1)
   
   println(algorithm.predict(dv))
-
+  
+ 
 }

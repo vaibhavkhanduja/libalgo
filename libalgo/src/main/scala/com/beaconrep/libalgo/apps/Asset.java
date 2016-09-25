@@ -9,8 +9,13 @@ public class Asset implements java.io.Serializable  {
 	/**
 	 * 
 	 */
+	
+	public  enum ASSET_TYPE {
+			MODBUS_SERVER, MODBUS_CLIENT, TELNET, SNCP 
+		};
 
 	
+	public ASSET_TYPE assetType;
 	private long destinationPort;
 	
 	private long sourcePort;
@@ -61,14 +66,20 @@ public class Asset implements java.io.Serializable  {
     	
     }
     
-    public void result(int name) {	
+    public void result(ASSET_TYPE name) {	
     	switch(name) {
-    	case 1: 
+    	case MODBUS_SERVER: 
     		assetName = "MODBUS_SERVER";
     		break;
-    	case 2:
+    	case MODBUS_CLIENT:
             assetName = "MODBUS_CLIENT";
             break;
+    	case TELNET:
+    		assetName = "TELNET";
+    		break;
+    	case SNCP:
+    		assetName = "SNCP";
+    		break;
       }
     }
 }

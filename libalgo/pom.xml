@@ -43,6 +43,18 @@
     <scala.binary.version>2.11</scala.binary.version>
   </properties>
 
+<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-bom</artifactId>
+				<type>pom</type>
+				<version>6.2.0.Final</version>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
   <dependencies>
     <dependency>
       <groupId>org.scala-lang</groupId>
@@ -87,7 +99,23 @@
     	<scope>system</scope>
         <systemPath>${env.HOME}/.m2/repository/ml/dmlc/xgboost4j/0.7/xgboost4j-0.7-jar-with-dependencies.jar</systemPath>
     </dependency>
-  </dependencies>
+    <dependency>
+      <groupId>org.kie</groupId>
+	     <artifactId>kie-api</artifactId>
+	 </dependency>
+     <dependency>
+	   <groupId>org.drools</groupId>
+		<artifactId>drools-core</artifactId>
+	 </dependency>
+	<dependency>
+		<groupId>org.drools</groupId>
+		<artifactId>drools-compiler</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.drools</groupId>
+		<artifactId>drools-decisiontables</artifactId>
+	</dependency>
+</dependencies>
 
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>

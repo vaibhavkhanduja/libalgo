@@ -1,49 +1,30 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.beaconrep</groupId>
-  <artifactId>libalgo</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>libalgo</name>
-  <description></description>
-  <inceptionYear>2015</inceptionYear>
-  <licenses>
-    <license>
-      <name>Choose License</name>
-      <url>http://....</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.beaconrep.libalgo</groupId>
+	<artifactId>libalgo</artifactId>
+	<version>0.1</version>
+	<packaging>jar</packaging>
+
+	<properties>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<encoding>UTF-8</encoding>
+		<scala.tools.version>2.11</scala.tools.version>
+		<scala.version>2.11.8</scala.version>
+		<spark.version>2.0.0</spark.version>
+	</properties>
+	<repositories>
 		<repository>
-		<id>cloudera-repo-releases</id>
-		<url>https://repository.cloudera.com/artifactory/repo/</url>
-		</repository>
-		<repository>
-		<id>maven-repo</id>
-		<url>https://repo.maven.apache.org/maven2/</url>
+			<id>cdh.repo</id>
+			<url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+			<name>Cloudera Repositories</name>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
-  <!-- Example of a non-restrictive license (MIT)
-   <licenses>
-    <license>
-      <name>MIT License</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-   -->
-
-  <properties>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-    <encoding>UTF-8</encoding>
-    <scala.version>2.11.8</scala.version>
-    <spark.tools.version>2.11.8</spark.tools.version>
-    <spark.version>2.0.0</spark.version>
-    <scala.binary.version>2.11</scala.binary.version>
-  </properties>
-
-<dependencyManagement>
+	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.drools</groupId>
@@ -54,125 +35,105 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-  <dependencies>
-    <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>${scala.version}</version>
+	<dependencies>
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-decisiontables</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-streaming_${scala.tools.version}</artifactId>
+			<version>${spark.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-sql_${scala.tools.version}</artifactId>
+			<version>${spark.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		   <dependency>
+        <groupId>org.jpmml</groupId>
+        <artifactId>jpmml-xgboost</artifactId>
+        <version>1.0.5</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_${scala.binary.version}</artifactId>
-      <version>${spark.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.spark</groupId>
-      <artifactId>spark-sql_${scala.binary.version}</artifactId>
-      <version>${spark.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-    	<groupId>org.apache.spark</groupId>
-    	<artifactId>spark-mllib_${scala.binary.version}</artifactId>
-    	<version>${spark.version}</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.jpmml</groupId>
-    	<artifactId>jpmml-xgboost</artifactId>
-    	<version>1.0.5</version>
-    </dependency>
-   
      <dependency>
-    	<groupId>ml.dml</groupId>
-    	<artifactId>xgboost4j-spark</artifactId>
-    	<version>0.7</version>
-    	<scope>system</scope>
+        <groupId>ml.dml</groupId>
+        <artifactId>xgboost4j-spark</artifactId>
+        <version>0.7</version>
+        <scope>system</scope>
         <systemPath>${env.HOME}/.m2/repository/ml/dmlc/xgboost4j-spark/0.7/xgboost4j-spark-0.7-jar-with-dependencies.jar</systemPath>
     </dependency>
     <dependency>
-    	<groupId>ml.dml</groupId>
-    	<artifactId>xgboost4j</artifactId>
-    	<version>0.7</version>
-    	<scope>system</scope>
+        <groupId>ml.dml</groupId>
+        <artifactId>xgboost4j</artifactId>
+        <version>0.7</version>
+        <scope>system</scope>
         <systemPath>${env.HOME}/.m2/repository/ml/dmlc/xgboost4j/0.7/xgboost4j-0.7-jar-with-dependencies.jar</systemPath>
     </dependency>
-    <dependency>
-      <groupId>org.kie</groupId>
-	     <artifactId>kie-api</artifactId>
-	 </dependency>
-     <dependency>
-	   <groupId>org.drools</groupId>
-		<artifactId>drools-core</artifactId>
-	 </dependency>
-	<dependency>
-		<groupId>org.drools</groupId>
-		<artifactId>drools-compiler</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.drools</groupId>
-		<artifactId>drools-decisiontables</artifactId>
-	</dependency>
-</dependencies>
-
-  <build>
-    <sourceDirectory>src/main/scala</sourceDirectory>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
-    <plugins>
-
-      <plugin>
-        <!-- see http://davidb.github.com/scala-maven-plugin -->
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <args>
-                <arg>-dependencyfile</arg>
-                <arg>${project.build.directory}/.scala_dependencies</arg>
-              </args>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.18.1</version>
-        <configuration>
-          <useFile>false</useFile>
-          <disableXmlReport>true</disableXmlReport>
-          <!-- If you have classpath issue like NoDefClassError,... -->
-          <!-- useManifestOnlyJar>false</useManifestOnlyJar -->
-          <includes>
-            <include>**/*Test.*</include>
-            <include>**/*Suite.*</include>
-          </includes>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.3</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
+		 <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-mllib_${scala.tools.version}</artifactId>
+            <version>${spark.version}</version>
+    </dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<version>3.1.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<args>
+								<arg>-dependencyfile</arg>
+								<arg>${project.build.directory}/.scala_dependencies</arg>
+							</args>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

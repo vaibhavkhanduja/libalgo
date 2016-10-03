@@ -43,7 +43,7 @@ class XGBoostTree(INframeWork:SparkSession) extends algorithm {
    
    val prediction = model.predict(pridictValues, 0)*/
    
-   println(model.eval(testData, "XGBoostEvaluator", new XGBoostEvaluator))
+   println(model.eval(testData, new XGBoostEvaluator, "XGBoostEvaluator"))
  
    //prediction.foreach { x => println(x) }
       

@@ -17,21 +17,20 @@ import ml.dmlc.xgboost4j.scala.spark.{XGBoost, XGBoostModel}
 //import ml.dmlc.xgboost4j.scala.XGBoost
 
 
-class XGBoostTree(INframeWork:SparkSession) extends algorithm {
+class XGBoostTree(INframeWork:SparkSession, INdata:facts) extends algorithm {
   
   frameWork = INframeWork
+  val data = INdata
   var model:XGBoostModel = null
   
  def buildModel {
-   val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
+   val splits = data.getSplits(0.7, 0.3)
    val (trainingData, testData) = (splits(0), splits(1))
    
    val paramMap = List(
        "eta" -> 0.1f,
        "max_depth" -> 2,
        "objective" -> "binary:logistic").toMap
-       
-  println("Started to train model")
        
    model = XGBoost.trainWithRDD(trainingData, paramMap.toMap,  2, 4)
    

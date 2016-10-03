@@ -1,6 +1,7 @@
 package com.beaconrep.libalgo.apps
 
 import com.beaconrep.libalgo.core._
+import com.beaconrep.libalgo._
 
 import org.apache.spark.sql.types.{StructType, StructField, IntegerType, LongType, StringType, DoubleType}
 
@@ -24,12 +25,14 @@ object TitanicXGBoost extends App {
      
      
   val frameWork = new SparkFramework("DecisionTree", "local[*]")
-  
-  val algorithm = new XGBoostTree(frameWork.getSession())
-  
+ 
   val featureQuery = new String("Survived,PassengerID,Age")
   
-  algorithm.initCSVDataPoint("resources/titanic/train.csv", TitanicDao, featureQuery)
+  val data = new facts(frameWork.getSession())
+  
+  data.initCSVDataPoint("resources/titanic/train.csv", TitanicDao, featureQuery)
+  
+  val algorithm = new XGBoostTree(frameWork.getSession(), data)
   
   algorithm.buildModel
   

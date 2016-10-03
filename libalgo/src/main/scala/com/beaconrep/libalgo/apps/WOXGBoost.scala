@@ -1,17 +1,18 @@
 package com.beaconrep.libalgo.apps
 
 import com.beaconrep.libalgo.core._
+import com.beaconrep.libalgo._
 
 object WOXGBoost extends App {
   
   val frameWork = new SparkFramework("DecisionTree", "local[*]")
   
-  val algorithm = new XGBoostTree(frameWork.getSession())
+  val data = new facts(frameWork.getSession())
   
-  algorithm.initCSVDataPoint("resources/ParameterMaterialNoEmpty.csv")
+  data.initCSVDataPoint("resources/ParameterMaterialNoEmpty.csv")
+  
+  val algorithm = new XGBoostTree(frameWork.getSession(), data)
   
   algorithm.buildModel
-  
- //val frameWork =  new XGBoostTree("resources/ParameterMaterialNoEmpty.csv")
   
 }

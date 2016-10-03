@@ -13,13 +13,14 @@ import org.apache.spark.mllib.linalg.{Vector}
 
 
 
-class SparkNaiveBayes(INframeWork: SparkSession) extends algorithm {
+class SparkNaiveBayes(INframeWork: SparkSession,  INdata:facts) extends algorithm {
   
   frameWork = INframeWork
+  private val data = INdata
   private var model: NaiveBayesModel = null 
       
 def buildModel: BinaryClassificationMetrics = {
-  val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
+  val splits = data.getSplits(0.7, 0.3)
   val (trainingData, testData) = (splits(0), splits(1))
   model = NaiveBayes.train(trainingData, lambda = 1.0, "multinomial")
   getMetrics(model, testData)

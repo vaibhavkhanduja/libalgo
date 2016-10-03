@@ -1,6 +1,7 @@
 package com.beaconrep.libalgo.apps
 
 import com.beaconrep.libalgo.core._
+import com.beaconrep.libalgo._
 
 import org.apache.spark.sql.types.{StructType, StructField, IntegerType, LongType, StringType, DoubleType}
 import org.apache.spark.mllib.classification.{NaiveBayes,NaiveBayesModel}
@@ -20,9 +21,11 @@ object NetworkFingerPrintingNaive extends App {
   
   val featureString = new String("protocol,src_port,dst_port,protocol_id")
   
-  val algorithm = new SparkNaiveBayes(frameWork.getSession())
+  val data = new facts(frameWork.getSession())
   
-  algorithm.initCSVDataPoint("resources/network/Network_train.csv", NetworkDao, featureString)
+  data.initCSVDataPoint("resources/network/Network_train.csv", NetworkDao, featureString)
+  
+  val algorithm = new SparkNaiveBayes(frameWork.getSession(), data)
   
   algorithm.buildModel
            

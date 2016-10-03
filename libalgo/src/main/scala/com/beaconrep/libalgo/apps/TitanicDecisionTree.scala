@@ -28,15 +28,20 @@ object TitanicDecsionTree extends App {
      StructField("Embarked", StringType, false) ::
      Nil)
      
-  val frameWork = new SparkFramework("DecisionTree", "local[*]")
-  
-  val algorithm = new SparkDecisionTree(frameWork.getSession())
+  val frameWork = new SparkFramework("TitanicDecisionTree", "local[*]")
   
   val featureQuery = new String("Survived,PassengerID,Age")
   
-  algorithm.initCSVDataPoint("resources/titanic/train.csv", TitanicDao, featureQuery)
- 
-  println(algorithm.buildModel.scoreAndLabels);
+  val data = new facts(frameWork.getSession())
   
+  data.initCSVDataPoint("resources/titanic/train.csv", TitanicDao, featureQuery)
+  
+  val algorithm1 = new SparkDecisionTree(frameWork.getSession(), data)
+ 
+  println(algorithm1.buildModel.scoreAndLabels);
+  
+  val algorithm2 = new XGBoostTree(frameWork.getSession(), data)
+  
+  algorithm2.buildModel 
   
 }

@@ -11,14 +11,15 @@ import org.apache.spark.mllib.tree.RandomForest
 import org.apache.spark.mllib.tree.model.RandomForestModel
 import org.apache.spark.mllib.linalg.{Vector}
 
-class SparkRandomForest(INframeWork:SparkSession) extends algorithm {
+class SparkRandomForest(INframeWork:SparkSession, INdata:facts) extends algorithm {
   
    frameWork = INframeWork
+   private val data = INdata
    private var model: RandomForestModel = null 
  
       
 def buildModel: BinaryClassificationMetrics = {
-  val splits = dataValuesRDD.randomSplit(Array(0.7, 0.3))
+  val splits = data.getSplits(0.7, 0.3)
   val (trainingData, testData) = (splits(0), splits(1))
   val impurity = "entropy"
   val numClasses = 2

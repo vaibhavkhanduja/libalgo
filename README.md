@@ -11,3 +11,8 @@ There are sample programs as well as datasets which can be executed for running 
 # TODO
 - Better documentation
 - More examples and sample datasets
+
+# License
+MIT
+# Support
+- Raise issue on github

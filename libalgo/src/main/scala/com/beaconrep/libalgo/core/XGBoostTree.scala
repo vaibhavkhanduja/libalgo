@@ -35,38 +35,11 @@ class XGBoostTree(INframeWork:SparkSession, INdata:facts) extends algorithm {
    model = XGBoost.trainWithRDD(trainingData, paramMap.toMap,  2, 4)
    
    println("Model created")
-   
-   /*val v0 = new DenseVector(Array(1,2,3))
-   
-   val pridictValues = INframeWork.sparkContext.parallelize(Seq(v0))
-   
-   val prediction = model.predict(pridictValues, 0)*/
+ 
    
    println(model.eval(testData, new XGBoostEvaluator, "XGBoostEvaluator"))
- 
-   //prediction.foreach { x => println(x) }
       
-  }
-  
-  
-  /*
-  def buildModel {
-  
-   val trainData = new DMatrix("resources/ParameterMaterialNoEmpty.csv")
-    // define parameters
-    val paramMap = List(
-      "eta" -> 0.1,
-      "max_depth" -> 2,
-      "objective" -> "binary:logistic").toMap
-    // number of iterations
-    val round = 2
-    // train the model
-    val model = XGBoost.train(trainData, paramMap, round)
-    // run prediction
-    val predTrain = model.predict(trainData)
-    
-    predTrain.foreach { x => println(x) }
- }*/
+}
   
   def predict(predicVector:Vector): Double = 0.0
 }
